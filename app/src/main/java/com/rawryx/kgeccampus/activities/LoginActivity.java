@@ -10,14 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.rawryx.kgeccampus.R;
 import com.rawryx.kgeccampus.helper.InputValidation;
 import com.rawryx.kgeccampus.sql.DatabaseHelper;
 
-/**
- * Created by rawryx on 1/28/18.
- */
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final AppCompatActivity activity = LoginActivity.this;
@@ -41,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getSupportActionBar().hide();
+        getSupportActionBar();
 
         initViews();
         initListeners();
@@ -70,12 +69,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         databaseHelper = new DatabaseHelper(activity);
         inputValidation = new InputValidation(activity);
     }
+    public void home(View view){
+
+        Intent intent= new Intent(this, HomepageActivity.class);
+        startActivity(intent);
+        Toast.makeText(this, "homepage is called", Toast.LENGTH_SHORT ).show();
+
+    }
 
     @Override
     public void onClick(View v){
         switch (v.getId()){
             case R.id.appCompatButtonLogin:
-                verifyFromSQLite();
+               verifyFromSQLite();
+
+
                 break;
             case R.id.textViewLinkRegister:
                 Intent intentRegister = new Intent(getApplicationContext(), RegisterActivity.class);
@@ -101,6 +109,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             accountsIntent.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
             emptyInputEditText();
             startActivity(accountsIntent);
+            Intent intenthome= new Intent(getApplicationContext(), HomepageActivity.class);
+            startActivity(intenthome);
+            Toast.makeText(this, "homepage is called", Toast.LENGTH_SHORT ).show();
+
         } else {
             Snackbar.make(nestedScrollView, getString(R.string.error_valid_email_password), Snackbar.LENGTH_LONG).show();
         }
